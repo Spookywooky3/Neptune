@@ -12,7 +12,7 @@ import { usePlanner, StopUI } from '@/context/planner';
 // components
 import { styles } from '@/components/styles';
 
-export const StopTable = () => {
+export const DecoTable = () => {
   const { stopsUI, setStopsUI } = usePlanner()!;
 
   const [newStopDepth, setNewStopDepth] = useState(0);
@@ -28,16 +28,15 @@ export const StopTable = () => {
 
   const moveStop = (currentIndex: number, newIndex: number) => {
     let newStops = [...stopsUI!];
-    
+
     newStops.splice(newIndex, 0, newStops.splice(currentIndex, 1)[0]);
     setStopsUI!(newStops);
   };
 
   const deleteStop = (index: number) => {
     setStopsUI!(stopsUI!.filter((_, i) => i !== index));
-    
   };
-  
+
   return (
     <Surface
       style={styles.surface}
@@ -46,7 +45,7 @@ export const StopTable = () => {
         <DataTable.Header>
           <DataTable.Title>Depth (m)</DataTable.Title>
           <DataTable.Title>Time (s)</DataTable.Title>
-          <DataTable.Title numeric> </DataTable.Title>
+          <DataTable.Title numeric>DECO</DataTable.Title>
         </DataTable.Header>
 
         {stopsUI!.map((stop, index) => {
@@ -97,41 +96,6 @@ export const StopTable = () => {
             </DataTable.Row>
           );
         })}
-        <DataTable.Row>
-          <DataTable.Cell style={{}}>
-            <TextInput
-              style={[styles.prefInput, { paddingRight: '2%' }]}
-              outlineStyle={[{ marginRight: '2%' }]}
-              label='Depth (m)'
-              mode='outlined'
-              keyboardType='numeric'
-              value={newStopDepth.toString()}
-              onChangeText={(text) => setNewStopDepth(parseFloat(validateText(text)))}
-            />
-          </DataTable.Cell>
-          <DataTable.Cell style={{}}>
-            <TextInput
-              style={[styles.prefInput, { paddingRight: '2%' }]}
-              outlineStyle={[{ marginRight: '2%' }]}
-              label='Time (s)'
-              mode='outlined'
-              keyboardType='numeric'
-              value={newStopTime.toString()}
-              onChangeText={(text) => setNewStopTime(parseFloat(validateText(text)))}
-            />
-          </DataTable.Cell>
-          <DataTable.Cell
-            style={{ alignItems: 'center' }}
-            numeric>
-            <Pressable onPress={() => saveStops()}>
-              <MaterialCommunityIcons
-                name='content-save-check-outline'
-                size={24}
-                color='lime'
-              />
-            </Pressable>
-          </DataTable.Cell>
-        </DataTable.Row>
       </DataTable>
     </Surface>
   );
